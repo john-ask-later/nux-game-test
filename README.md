@@ -14,9 +14,9 @@ docker run --rm \
 ~~~
 
 4. Run in console from the directory
-   5. `./vendor/bin/sail build`
-   5. `./vendor/bin/sail up -d`
-   5. `./vendor/bin/sail artisan migrate`
+   * `./vendor/bin/sail build`
+   * `./vendor/bin/sail up -d`
+   * `./vendor/bin/sail artisan migrate`
 6. Go to [localhost](http://localhost) in browser
 
 ### Test task definition
