@@ -1,6 +1,6 @@
 ### Installation
 
-2. Fetch the project to desired directory
+1. Fetch the project to desired directory
 2. Navigate to directory
 3. Run in console from the directory:
 
@@ -14,6 +14,7 @@ docker run --rm \
 ~~~
 
 4. Run in console from the directory
+   * `cp .env.example .env`
    * `./vendor/bin/sail build`
    * `./vendor/bin/sail up -d`
    * `./vendor/bin/sail artisan migrate`
