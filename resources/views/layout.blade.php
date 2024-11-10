@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="scrf" content="{{ csrf_token() }}">
     <title>Registration</title>
 
     <!-- Styles / Scripts -->
@@ -11,7 +11,19 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
           crossorigin="anonymous">
 
-{{--    @vite(['resources/js/app.js'])--}}
+    <script>
+        window.app = {
+            csfr: '{{ csrf_token() }}',
+            url: {
+                home: '{{ route('home') }}'
+            },
+            messages: {
+                lp_expired: 'Sorry, but page you are want to interact with now available any more.'
+            }
+        }
+    </script>
+
+    {{--    @vite(['resources/js/app.js'])--}}
 </head>
 <body>
 

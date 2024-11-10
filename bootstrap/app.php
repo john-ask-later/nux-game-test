@@ -1,5 +1,7 @@
 <?php
 
+use App\Domain\Landing\Cron\PruneExpiredLandings;
+use App\Domain\Landing\VerifyLandingMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -11,8 +13,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            'landing_active' => VerifyLandingMiddleware::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
-    })->create();
+    })
+    ->withCommands([
+        PruneExpiredLandings::class,
+    ])
+    ->create();

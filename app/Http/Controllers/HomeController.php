@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Domain\Landing\LandingService;
+use App\Domain\Landing\LandingCrudService;
 use App\Domain\Player\CreatePlayerRequest;
 use App\Domain\Player\PlayerService;
-use App\Jobs\TestJob;
-use App\Jobs\TestRedisJob;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -14,27 +13,39 @@ class HomeController extends Controller
 {
     public function __construct(
         protected PlayerService $players,
-        protected LandingService $landings
+        protected LandingCrudService $landings
     ) {
 
     }
 
+    /**
+     * Main action to show registration form and lucky link with (if) provided hash ID.
+     *
+     * @param Request $request
+     *
+     * @return View
+     */
     public function index(Request $request): View
     {
-        dispatch(new TestJob('Hello world'));
+        $hashId = $request->query('hash');
 
-        $hash = $request->query('hash');
-        $link = $hash ? action([LandingController::class, 'show'], $hash) : null;
-
-        return \view('home', compact('link', 'hash'));
+        return view('home', compact('hashId'));
     }
 
-    public function store(CreatePlayerRequest $request)
+    /**
+     * Create player and make new landing for him.
+     *
+     * @param CreatePlayerRequest $request
+     *
+     * @return RedirectResponse
+     */
+    public function store(CreatePlayerRequest $request): RedirectResponse
     {
         $player  = $this->players->createPlayer($request->validated());
         $landing = $this->landings->create($player->id);
 
-        return redirect()->action([__CLASS__, 'index'], ['hash' => (string)$landing->hash]);
+        // I've decided not to make it via ajax, to allow users to save the url of the page with lucky link
+        return to_route('home', ['hash' => (string) $landing->hash]);
     }
 
 }

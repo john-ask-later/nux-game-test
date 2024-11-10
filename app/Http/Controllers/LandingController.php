@@ -2,37 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Domain\Landing\Exceptions\PageExpiredException;
-use App\Domain\Landing\Exceptions\PageTrashedException;
-use App\Domain\Landing\LandingService;
-use App\Domain\Landing\LandingVerifierService;
-use App\Domain\Spin\SpinService;
+use App\Domain\Landing\LandingCrudService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class LandingController extends Controller
 {
     public function __construct(
-        protected LandingService $landings,
-        protected LandingVerifierService $verifier
+        protected LandingCrudService $landings
     ) {
     }
 
-    public function show(string $hash): View|RedirectResponse
+    public function show(Request $request, string $hashId): View|RedirectResponse
     {
-        $landing = $this->landings->findByHash($hash);
+        $landing = $this->landings->findByHash($hashId);
+        $hashId  = $request->query('new-hash');
 
-        try {
-            $this->verifier->validate($landing);
-        } catch (PageTrashedException) {
-            abort(403, 'This page is not available anymore');
-        } catch (PageExpiredException) {
-            $this->landings->deactivate($landing);
-
-            return redirect()->refresh();
-        }
-
-        return \view('landing', compact('landing'));
+        return view('landing', compact('landing', 'hashId'));
     }
 
     public function regenerate(string $hashId): RedirectResponse
@@ -41,9 +28,7 @@ class LandingController extends Controller
             $this->landings->findByHash($hashId)
         );
 
-        return redirect(
-            action([__CLASS__, 'show'], $landing->hash)
-        );
+        return to_route('landing.show', ['hash' => $hashId, 'new-hash' => (string)$landing->hash]);
     }
 
     public function deactivate(string $hashId): RedirectResponse
@@ -52,9 +37,7 @@ class LandingController extends Controller
             $this->landings->findByHash($hashId)
         );
 
-        return redirect(
-            action([HomeController::class, 'index'])
-        );
+        return to_route('home');
     }
 
 }

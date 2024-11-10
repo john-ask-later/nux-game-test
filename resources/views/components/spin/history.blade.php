@@ -1,3 +1,7 @@
+@php use App\Domain\Spin\SpinDto; @endphp
+@php
+    /** @var SpinDto[] $list */
+@endphp
 <table class="table">
     <thead>
     <th>Try #</th>
@@ -10,7 +14,7 @@
             <tr class="table-success">
                 <td>{{ $spin->num }}</td>
                 <td>{{ $spin->score }}</td>
-                <td>{{ $spin->amountInUsd() }}</td>
+                <td>{{ $spin->getAmountInUsd() }}</td>
             </tr>
         @else
             <tr class="table-warning">

@@ -35,12 +35,8 @@
                     <div class="col-12">
                         {{ html()->submit('Register')->class('btn btn-lg btn-outline-primary') }}
                     </div>
-                    @if($link)
-                        <div class="alert alert-info mt-5 w-100">
-                            Your lucky link is here:
-                            <a href="{{ $link }}" class="alert-link">{{ $hash }}</a>
-                        </div>
-                    @endif
+
+                    @includeWhen($hashId, 'components.lucky-link')
                 </div>
             </div>
         </div>

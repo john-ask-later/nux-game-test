@@ -1,5 +1,10 @@
-@php use App\Http\Controllers\LandingController; @endphp
+@php use App\Domain\Landing\Landing;use App\Http\Controllers\LandingController; @endphp
 @extends('layout')
+
+@php
+    /** @var Landing $landing */
+    /** @var string $hashId */
+@endphp
 
 @section('content')
     <div class="container">
@@ -7,7 +12,7 @@
             <div class="col-12 col-md-6 mx-auto pt-5 text-center">
                 <div class="mb-5">
                     <h1>
-                        <i class="fa fa-fw fa-user"></i> Welcome {{ $landing->player->name }}
+                        <i class="fa fa-fw fa-user"></i> Welcome {{ $landing->getPlayerName() }}
                     </h1>
                     <small class="text-muted">{{ $landing->getTimeToExpiration() }} your lucky page gets expired, don't
                         miss your chance!</small>
@@ -26,15 +31,17 @@
                 <div class="mb-5" id="history-container">
                 </div>
 
-                <div class="mt-5 d-flex justify-content-between">
-                    {{ html()->form('POST', action([LandingController::class, 'regenerate'], $landing->hash))->open() }}
+                <div class="mt-5 mb-5 d-flex justify-content-between">
+                    {{ html()->form('POST', route('landing.regenerate', $landing->hash))->open() }}
                     {{ html()->submit('Create new lucky page')->class('btn btn-sm btn-link') }}
                     {{ html()->form()->close() }}
 
-                    {{ html()->form('DELETE', action([LandingController::class, 'deactivate'], $landing->hash))->open() }}
+                    {{ html()->form('DELETE', route('landing.deactivate', $landing->hash))->open() }}
                     {{ html()->submit('Stop my journey')->class('btn btn-sm btn-link text-secondary') }}
                     {{ html()->form()->close() }}
                 </div>
+
+                @includeWhen($hashId, 'components.lucky-link')
             </div>
         </div>
     </div>
@@ -56,7 +63,7 @@
                 });
             });
 
-            $('#spin-history').on('click', function(e){
+            $('#spin-history').on('click', function (e) {
                 e.preventDefault();
                 var url = $(this).attr('href');
                 $.get(url, function (resp) {

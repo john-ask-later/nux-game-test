@@ -5,27 +5,20 @@ namespace App\Domain\Landing;
 use App\Domain\Landing\Exceptions\PageExpiredException;
 use App\Domain\Landing\Exceptions\PageTrashedException;
 
+/**
+ * Simple helper to validate landing page before it will be used
+ */
 class LandingVerifierService
 {
     public function validate(Landing $page): void
     {
-        if (true === $this->isTrashed($page)) {
+        if (true === $page->trashed()) {
             throw new PageTrashedException();
         }
 
-        if (false === $this->isActive($page)) {
+        if (false === $page->isActive()) {
             throw new PageExpiredException();
         }
-    }
-
-    public function isActive(Landing $page): bool
-    {
-        return $page->getExpirationDate()->isFuture();
-    }
-
-    public function isTrashed(Landing $page): bool
-    {
-        return $page->trashed();
     }
 
 }
