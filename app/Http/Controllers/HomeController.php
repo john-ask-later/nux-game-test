@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Domain\Landing\LandingService;
 use App\Domain\Player\CreatePlayerRequest;
 use App\Domain\Player\PlayerService;
+use App\Jobs\TestJob;
+use App\Jobs\TestRedisJob;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -19,6 +21,8 @@ class HomeController extends Controller
 
     public function index(Request $request): View
     {
+        dispatch(new TestJob('Hello world'));
+
         $hash = $request->query('hash');
         $link = $hash ? action([LandingController::class, 'show'], $hash) : null;
 
