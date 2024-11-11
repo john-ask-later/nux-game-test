@@ -2,7 +2,7 @@
 
 1. Fetch the project to desired directory
 2. Install `make` command if needed
-3. Run `make setup` in console
+3. Run `make demo` in console
 4. Go to [localhost](http://localhost) in browse
 
 Use `make help` to get more info on available commands

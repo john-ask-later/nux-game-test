@@ -8,12 +8,19 @@ start: ## Run containers
 stop: ## Stop containers
 	./vendor/bin/sail stop
 
+prod: ## Prepare for production
+	./vendor/bin/sail artisan optimize
+
 drop: ## Drop everything
 	./vendor/bin/sail down -v
 
 rebuild: ## Rebuild everything from the scratch
 	make drop
 	make setup
+
+demo: ## Setup everything and prepare app for production
+	make setup
+	make prod
 
 help:
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / \
