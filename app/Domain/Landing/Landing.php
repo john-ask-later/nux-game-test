@@ -4,6 +4,7 @@ namespace App\Domain\Landing;
 
 use App\Domain\Player\Player;
 use App\Domain\Spin\History\LandingObserver as SpinLandingObserver;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -97,12 +98,17 @@ class Landing extends Model
      */
     public function getExpirationDate(): Carbon
     {
-        return $this->created_at->addDays(static::$expiration);
+        return $this->created_at->clone()->addDays(static::$expiration);
     }
 
     public function getTimeToExpiration(): string
     {
-        return $this->getExpirationDate()->to($this->created_at, null, false, 3);
+        return now()->diffForHumans(
+            $this->getExpirationDate(),
+            CarbonInterface::DIFF_RELATIVE_TO_OTHER,
+            false,
+            3
+        );
     }
 
     public function isActive(): bool
