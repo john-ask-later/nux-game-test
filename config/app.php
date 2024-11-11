@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Facade;
+use Illuminate\Support\ServiceProvider;
+
 return [
 
     /*
@@ -120,7 +123,29 @@ return [
 
     'maintenance' => [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
-        'store' => env('APP_MAINTENANCE_STORE', 'database'),
+        'store'  => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Autoloaded Service Providers
+    |--------------------------------------------------------------------------
+    |
+    | The service providers listed here will be automatically loaded on any
+    | requests to your application. You may add your own services to the
+    | arrays below to provide additional features to this application.
+    |
+    */
+    'providers' => ServiceProvider::defaultProviders()
+        ->except([
+            // Exclude some unused providers to boost performance
+            \Illuminate\Auth\AuthServiceProvider::class,
+            \Illuminate\Broadcasting\BroadcastServiceProvider::class,
+            \Illuminate\Hashing\HashServiceProvider::class,
+            \Illuminate\Mail\MailServiceProvider::class,
+            \Illuminate\Notifications\NotificationServiceProvider::class,
+            \Illuminate\Pagination\PaginationServiceProvider::class,
+            \Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
+        ])
+        ->toArray(),
 ];

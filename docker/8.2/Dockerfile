@@ -10,7 +10,8 @@ WORKDIR /var/www/html
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV TZ=UTC
-ENV SUPERVISOR_PHP_COMMAND="/usr/bin/php -d variables_order=EGPCS /var/www/html/artisan serve --host=0.0.0.0 --port=80"
+#ENV SUPERVISOR_PHP_COMMAND="/usr/bin/php -d variables_order=EGPCS /var/www/html/artisan serve --host=0.0.0.0 --port=80"
+ENV SUPERVISOR_PHP_COMMAND="/usr/bin/php -d variables_order=EGPCS /var/www/html/artisan octane:start --server=swoole --host=0.0.0.0 --port=80"
 ENV SUPERVISOR_PHP_USER="sail"
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -63,6 +64,15 @@ RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 COPY scheduler /etc/cron.d/scheduler
 RUN chmod 0644 /etc/cron.d/scheduler \
     && crontab /etc/cron.d/scheduler
+
+RUN mkdir -p /etc/swoole/ssl/certs/ /etc/swoole/ssl/private/
+RUN openssl req -x509 -nodes -days 365 -subj "/C=CA/ST=QC/O=Artisan, Inc./CN=localhost" \
+    -addext "subjectAltName=DNS:localhost" -newkey rsa:2048 \
+    -keyout /etc/swoole/ssl/private/sail-selfsigned.key \
+    -out /etc/swoole/ssl/certs/sail-selfsigned.crt;
+RUN chmod 644 /etc/swoole/ssl/certs/*.crt
+RUN chown -R root:sail /etc/swoole/ssl/private/
+RUN chmod 640 /etc/swoole/ssl/private/*.key
 
 COPY start-container /usr/local/bin/start-container
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf

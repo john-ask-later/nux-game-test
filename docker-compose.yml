@@ -5,7 +5,8 @@ services:
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
-        image: 'nik35yevhen/nux-game-test'
+#        image: 'nik35yevhen/nux-game-test'
+        image: 'nik35yevhen/nux-game-test-swoole'
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
