@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Domain\Landing\LandingCrudService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class LandingController extends Controller
 {
@@ -14,12 +15,17 @@ class LandingController extends Controller
     ) {
     }
 
-    public function show(Request $request, string $hashId): View|RedirectResponse
+    public function show(Request $request, string $hashId): Response
     {
-        $landing = $this->landings->findByHash($hashId);
-        $hashId  = $request->query('new-hash');
+        $landing   = $this->landings->findByHash($hashId);
+        $newHashId = $request->query('new-hash');
 
-        return view('landing', compact('landing', 'hashId'));
+        return Inertia::render('Landing', [
+            'hashId'    => $hashId,
+            'newHashId' => $newHashId,
+            'playerN'   => $landing->playerName,
+            'timeLeft'  => $landing->getTimeToExpiration(),
+        ]);
     }
 
     public function regenerate(string $hashId): RedirectResponse
@@ -28,7 +34,7 @@ class LandingController extends Controller
             $this->landings->findByHash($hashId)
         );
 
-        return to_route('landing.show', ['hash' => $hashId, 'new-hash' => (string)$landing->hash]);
+        return to_route('landing.show', ['hash' => $hashId, 'new-hash' => (string) $landing->hash]);
     }
 
     public function deactivate(string $hashId): RedirectResponse

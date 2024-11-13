@@ -139,9 +139,9 @@ return [
     'providers' => ServiceProvider::defaultProviders()
         ->except([
             // Exclude some unused providers to boost performance
-            \Illuminate\Auth\AuthServiceProvider::class,
+//            \Illuminate\Auth\AuthServiceProvider::class,
             \Illuminate\Broadcasting\BroadcastServiceProvider::class,
-            \Illuminate\Hashing\HashServiceProvider::class,
+//            \Illuminate\Hashing\HashServiceProvider::class,
             \Illuminate\Mail\MailServiceProvider::class,
             \Illuminate\Notifications\NotificationServiceProvider::class,
             \Illuminate\Pagination\PaginationServiceProvider::class,

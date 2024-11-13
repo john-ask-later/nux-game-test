@@ -19,6 +19,8 @@ class SpinService
 
         $spinDto = new SpinDto($attributes);
 
+        $spinDto->amount_in_usd($spinDto->getAmountInUsd());
+
         $this->history->saveSpin($spinDto);
 
         return $spinDto;

@@ -17,4 +17,11 @@ class CreatePlayerRequest extends FormRequest
         ];
     }
 
+    public function messages()
+    {
+        return [
+            'phone.regex' => 'Phone must contain only numbers or whitespaces and may start with \'+\' char',
+        ];
+    }
+
 }

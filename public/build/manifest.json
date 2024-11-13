@@ -1,13 +1,61 @@
 {
+  "_PrimaryButton-DOX2BOk6.js": {
+    "file": "assets/PrimaryButton-DOX2BOk6.js",
+    "name": "PrimaryButton",
+    "imports": [
+      "resources/js/inertia.js",
+      "_bootstrap-6btFlK5R.js"
+    ]
+  },
+  "_bootstrap-6btFlK5R.js": {
+    "file": "assets/bootstrap-6btFlK5R.js",
+    "name": "bootstrap"
+  },
+  "resources/js/Pages/Home.vue": {
+    "file": "assets/Home-BxPkMQ3Q.js",
+    "name": "Home",
+    "src": "resources/js/Pages/Home.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/inertia.js",
+      "_PrimaryButton-DOX2BOk6.js",
+      "_bootstrap-6btFlK5R.js"
+    ]
+  },
+  "resources/js/Pages/Landing.vue": {
+    "file": "assets/Landing-ClvaXvOw.js",
+    "name": "Landing",
+    "src": "resources/js/Pages/Landing.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "_PrimaryButton-DOX2BOk6.js",
+      "resources/js/inertia.js",
+      "_bootstrap-6btFlK5R.js"
+    ]
+  },
   "resources/js/app.js": {
-    "file": "assets/app-BVCwpRSv.js",
+    "file": "assets/app-MydCEOBR.js",
     "name": "app",
     "src": "resources/js/app.js",
-    "isEntry": true
+    "isEntry": true,
+    "imports": [
+      "_bootstrap-6btFlK5R.js"
+    ]
   },
-  "resources/scss/app.scss": {
-    "file": "assets/app-CXeIpNej.css",
-    "src": "resources/scss/app.scss",
-    "isEntry": true
+  "resources/js/inertia.js": {
+    "file": "assets/inertia-BGsiMaLC.js",
+    "name": "inertia",
+    "src": "resources/js/inertia.js",
+    "isEntry": true,
+    "imports": [
+      "_bootstrap-6btFlK5R.js"
+    ],
+    "dynamicImports": [
+      "resources/js/Pages/Home.vue",
+      "resources/js/Pages/Landing.vue"
+    ],
+    "css": [
+      "assets/inertia-klFWtE93.css"
+    ]
   }
 }

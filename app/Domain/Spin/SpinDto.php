@@ -9,6 +9,7 @@ use Illuminate\Support\Fluent;
  * @property int    $num
  * @property int    $score
  * @property float  $amount
+ * @property string $amount_in_usd
  * @property bool   $is_win
  */
 class SpinDto extends Fluent

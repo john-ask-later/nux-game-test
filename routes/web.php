@@ -16,4 +16,3 @@ Route::middleware(['landing_active:hash'])->group(function () {
     Route::post('/spin/{hash}', [SpinController::class, 'spin'])->name('spin.create');
     Route::get('/spin/{hash}/history', [SpinController::class, 'latest'])->name('spin.history');
 });
-

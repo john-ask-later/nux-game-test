@@ -6,6 +6,7 @@ use App\Domain\Spin\History\DatabaseHistoryManager;
 use App\Domain\Spin\History\RedisHistoryManager;
 use App\Domain\Spin\History\SpinsPresenceVerifier;
 use App\Domain\Spin\HistoryInterface;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -35,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Vite::prefetch(concurrency: 3);
     }
 
 }

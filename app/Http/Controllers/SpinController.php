@@ -15,14 +15,14 @@ class SpinController extends Controller
     {
         $spin = $this->spins->create($landingHashId);
 
-        return ['result' => view('components.spin.result', compact('spin'))->render()];
+        return compact('spin');
     }
 
     public function latest(string $landingHashId): array
     {
-        $list = $this->spins->getLatest($landingHashId);
-
-        return ['result' => view('components.spin.history', compact('list'))->render()];
+        return [
+            'spins' => $this->spins->getLatest($landingHashId)
+        ];
     }
 
 }

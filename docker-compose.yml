@@ -6,7 +6,8 @@ services:
             args:
                 WWWGROUP: '${WWWGROUP}'
 #        image: 'nik35yevhen/nux-game-test'
-        image: 'nik35yevhen/nux-game-test-swoole'
+#        image: 'nik35yevhen/nux-game-test-swoole'
+        image: 'nik35yevhen/nux-game-test-swoole-dev'
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
@@ -14,6 +15,7 @@ services:
             - '8000:8000'
             - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
         environment:
+            SUPERVISOR_PHP_COMMAND: "/usr/bin/php -d variables_order=EGPCS /var/www/html/artisan octane:start --server=swoole --host=0.0.0.0 --port=80 --watch"
             WWWUSER: '${WWWUSER}'
             LARAVEL_SAIL: 1
             XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'

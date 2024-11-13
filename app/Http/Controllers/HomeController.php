@@ -7,7 +7,8 @@ use App\Domain\Player\CreatePlayerRequest;
 use App\Domain\Player\PlayerService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class HomeController extends Controller
 {
@@ -23,13 +24,17 @@ class HomeController extends Controller
      *
      * @param Request $request
      *
-     * @return View
+     * @return Response
      */
-    public function index(Request $request): View
+    public function index(Request $request): Response
     {
-        $hashId = $request->query('hash');
+        $hashId  = $request->query('hash');
+        $playerN = $hashId ? $this->landings->findByHash($hashId)?->playerName : null;
 
-        return view('home', compact('hashId'));
+        return Inertia::render('Home', [
+            'hashId'  => $hashId,
+            'playerN' => $playerN,
+        ]);
     }
 
     /**
